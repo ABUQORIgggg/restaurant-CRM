@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import {  useState } from "react";
 import items from "../../src/data";
 
 const allCategories = ["all", ...new Set(items.map((item) => item.category))];
@@ -61,11 +61,7 @@ const Menu = () => {
     setCheckoutItems([]);
   };
 
-  useEffect(() => {
-    const totalCount = checkoutItems.reduce((count, item) => count + item.quantity, 0);
-    localStorage.setItem('checkout', totalCount);
-  }, [checkoutItems]);
-  console.log("chekout", checkoutItems)
+
 
   return (
     <main className="container mx-auto w-full flex max-h-adaptive gap-5">

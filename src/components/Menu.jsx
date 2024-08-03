@@ -46,7 +46,7 @@ const Menu = () => {
       )
     );
   };
-
+  
   const handleDecreaseQuantity = (id) => {
     setCheckoutItems((prevItems) =>
       prevItems.map((item) =>
@@ -56,7 +56,6 @@ const Menu = () => {
       )
     );
   };
-
   const handleClearAll = () => {
     setCheckoutItems([]);
   };

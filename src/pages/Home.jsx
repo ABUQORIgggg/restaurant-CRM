@@ -7,7 +7,6 @@ import moment from "moment";
 import DraggableButton from "../components/Others/CheckButton";
 import { useSwipeable } from "react-swipeable";
 import Charts from "../components/Charts";
-import CanvasJSReact from "@canvasjs/react-charts";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -71,10 +70,10 @@ const Home = () => {
     }
   };
 
-  // let filteredOrdersLength = orders.filter(
-  //   (item) =>
-  //     item.worker_id === +user.id && item.month === moment().format("MMMM")
-  // );
+  const filterData = useMemo(
+    () => task.filter((item) => item.status === "completed").length,
+    [task]
+  );
 
   useEffect(() => {
     dispatch(userListFetch());
@@ -84,10 +83,7 @@ const Home = () => {
   console.log("orders: ", orders);
 
   useEffect(() => {
-    const totleSum = orders.reduce(
-      (sum, item) => sum + item.total_price,
-      0
-    );
+    const totleSum = orders.reduce((sum, item) => sum + item.total_price, 0);
     setKPI((totleSum / 100) * 2);
   }, [orders]);
 
@@ -116,11 +112,6 @@ const Home = () => {
 
     fetchOrders();
   }, []);
-
-  const filterData = useMemo(
-    () => task.filter((item) => item.status === "completed").length,
-    [task]
-  );
 
   const toggleStatusVisibility = (taskId) => {
     setStatusVisibility((prevVisibility) => ({
@@ -168,6 +159,8 @@ const Home = () => {
     }));
   };
 
+  
+
   const handlers = useSwipeable({
     onSwipedUp: () => setSwipeDirection("up"),
     onSwipedDown: () => setSwipeDirection("down"),
@@ -177,7 +170,7 @@ const Home = () => {
   });
 
   return (
-    <div className="container mx-auto w-full p-5 ">
+    <div className="container mx-auto w-full p-5 overflow-hidden ">
       {status === "loading" && (
         <div className="text-blue-500 font-serif fixed top-1/2 left-1/2 translate-x-[200%]">
           <span className="loading loading-spinner loading-lg"></span>
@@ -256,7 +249,7 @@ const Home = () => {
                 />
               </svg>
 
-              <div className="flex flex-col text-right">        
+              <div className="flex flex-col text-right">
                 <p className="font-bold">KPI</p>
                 <p className="text-2xl">${KPI}</p>
                 <span className="text-xs text-accent">in month</span>
